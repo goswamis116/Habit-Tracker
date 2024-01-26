@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Reading a book",
+    "status": {
+      "2024-01-24": "done",
+      "2024-01-23": "not done",
+      "2024-01-22": "none",
+      "2024-01-25": "done"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Going to the gym",
+    "status": {
+      "2024-01-24": "none",
+      "2024-01-23": "done",
+      "2024-01-22": "done",
+      "2024-01-25": "done"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Meditating",
+    "status": {
+      "2024-01-24": "done",
+      "2024-01-23": "done",
+      "2024-01-22": "done",
+      "2024-01-25": "done"
+    }
+  },
+  {
+    "id": 4,
+    "name": "ccccc",
+    "status": {}
+  },
+  {
+    "id": 5,
+    "name": "test",
+    "status": {}
+  },
+  {
+    "id": 6,
+    "name": "Morning Walk",
+    "status": {}
+  }
+]

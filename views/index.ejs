@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker by Santanu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+     .col {
+    border: 2px solid #d63548;
+    padding: 5px;
+    text-align: center;
+     }
+
+    select {
+      width: 100%;
+      padding: 2px;
+      margin-top: 2px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Habit Tracker by Santanu</h1>
+        
+        <form action="/habits/add" method="post" class="mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="habitName" class="form-label">Habit Name</label>
+                        <input type="text" class="form-control" id="habitName" name="habitName" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mt-3 mt-2">
+                        <button type="submit" class="btn btn-primary">Add Habit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        
+
+        <div class="habit-list mt-4">
+            <% for (let habit of habits) { %>
+                <div class="habit card mb-3">
+                    <div class="card-body">
+                        <h3 class="card-title"><%= habit.name %></h3>
+                        <div class="row">
+                            <% const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; %>
+                            <% for (let dayIndex = 0; dayIndex < daysOfWeek.length; dayIndex++) { %>
+                                <div class="col">
+                                    <form action="/habits/<%= habit._id %>/weekly/<%= dayIndex %>/update" method="post">
+                                        <p><%= daysOfWeek[dayIndex] %></p>
+                                        <select name="status" onchange="updateStatus('<%= habit._id %>', '<%= dayIndex %>', this.value)">
+                                            <option value="done" <%= habit.status[dayIndex] === 'done' ? 'selected' : '' %>>Done</option>
+                                            <option value="not done" <%= habit.status[dayIndex] === 'not done' ? 'selected' : '' %>>Not Done</option>
+                                            <option value="none" <%= habit.status[dayIndex] === 'none' ? 'selected' : '' %>>None</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Update status after updating -->
+<script>
+    function updateStatus(habitId, dayOfWeek, status) {
+        fetch(`/habits/${habitId}/weekly/${dayOfWeek}/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+            body: JSON.stringify({ status: status })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Show alert indicating success
+                alert('Status updated successfully');
+            } else {
+                // Show alert indicating failure
+                alert('Failed to update status');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating habit status:', error);
+            // Handle error (e.g., display error message to user)
+            alert('An error occurred while updating the status');
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
